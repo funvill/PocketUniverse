@@ -31,9 +31,9 @@
      id="namedview128"
      showgrid="false"
      units="ft"
-     inkscape:zoom="0.052700617"
-     inkscape:cx="8175.5074"
-     inkscape:cy="13843.408"
+     inkscape:zoom="0.018632482"
+     inkscape:cx="10123.804"
+     inkscape:cy="9995.4061"
      inkscape:current-layer="svg2"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
@@ -47,6 +47,7 @@ Created by potrace 1.11, written by Peter Selinger 2001-2013
     <dc:format>image/svg+xml</dc:format>
     <dc:type
        rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+    <dc:title></dc:title>
   </cc:Work>
 </rdf:RDF>
 </metadata>
