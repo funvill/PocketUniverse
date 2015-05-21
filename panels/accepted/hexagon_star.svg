@@ -10,8 +10,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="60in"
-   height="60in"
-   viewBox="0 0 5399.9999 5400"
+   height="48in"
+   viewBox="0 0 5399.9999 4320"
    id="svg4475"
    version="1.1"
    inkscape:version="0.91pre4 r13712"
@@ -25,13 +25,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.12374369"
-     inkscape:cx="3441.2127"
-     inkscape:cy="2372.8356"
+     inkscape:zoom="0.043750001"
+     inkscape:cx="7339.3427"
+     inkscape:cy="1992.0358"
      inkscape:document-units="cm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     units="in"
+     units="ft"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="1912"
@@ -53,10 +53,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,4347.6377)">
+     transform="translate(0,3267.6377)">
     <g
        id="g17877"
-       transform="matrix(1.25,0,0,1.25,-18025.891,6459.7922)">
+       transform="matrix(0,1.25,-1.25,0,-5036.3086,-21023.166)">
       <path
          id="path17394"
          d="m 17411.153,-6978.856 -1491.399,-851.0247 -1482.709,866.0778 8.691,1717.1029 1491.4,851.0235 1482.708,-866.0765 -8.691,-1717.103 z"
