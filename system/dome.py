@@ -52,31 +52,31 @@ GPIO.setmode(GPIO.BCM)
 
 
 SoundEffectList = []
-SoundEffectList.append(SoundEffect(4, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(17, "doit.mp3" ))
-SoundEffectList.append(SoundEffect(18, "better.mp3" ))
+SoundEffectList.append(SoundEffect(4, "workit_loud.mp3" ))
+SoundEffectList.append(SoundEffect(17, "makeit_loud.mp3" ))
+SoundEffectList.append(SoundEffect(18, "doit_loud.mp3" ))
 SoundEffectList.append(SoundEffect(27, "makeit.mp3" ))
 SoundEffectList.append(SoundEffect(22, "workit.mp3" ))
-SoundEffectList.append(SoundEffect(23, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(24, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(25, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(5, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(6, "harder.mp3" ))
-# SoundEffectList.append(SoundEffect(12, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(13, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(16, "harder.mp3" ))
-SoundEffectList.append(SoundEffect(37, "harder.mp3" ))
-
+SoundEffectList.append(SoundEffect(23, "makesus_loud.mp3" ))
+SoundEffectList.append(SoundEffect(24, "harder_loud.mp3" ))
+SoundEffectList.append(SoundEffect(25, "better_loud.mp3" ))
+SoundEffectList.append(SoundEffect(5, "faster3.mp3" ))
+SoundEffectList.append(SoundEffect(6, "strong_loud.mp3" ))
+SoundEffectList.append(SoundEffect(13, "morethen.mp3" ))
+SoundEffectList.append(SoundEffect(16, "never_loud.mp3" ))
+SoundEffectList.append(SoundEffect(37, "ever.mp3" ))
+SoundEffectList.append(SoundEffect(12, "workit_loud.mp3" ))
+# after.mp3
 
 
 # main loop 
 print 'Starting...'
 count = 0 
 while True:
- 
+    
     for button in SoundEffectList:
         button.Check() 
-
+    
     # Update the LEDs 
     count += setting_speed 
     for pixel in range( ledCount ):
