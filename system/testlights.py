@@ -2,7 +2,7 @@
 from bibliopixel.drivers.serial_driver import *
 
 
-numled = 35*5*3 ; 
+numled = 32*5*3 ; 
 driver = DriverSerial(num = numled, type = LEDTYPE.WS2811)
 
 #import the bibliopixel base classes
@@ -24,7 +24,7 @@ led = LEDStrip(driver)
 
 try:
     anim = BasicAnimTest(led)
-    anim.run(fps=45)
+    anim.run(fps=30)
 except KeyboardInterrupt:
     #turn everything off if Ctrl+C is pressed
     led.all_off()
