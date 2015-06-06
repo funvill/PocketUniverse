@@ -1,0 +1,14 @@
+There needs to be two crontabs set up. 
+
+
+crontab -e 
+
+# m h  dom mon dow   command
+* * * * * sh /home/pi/dome/led.sh > /home/pi/dome/log_led.out 2>&1 &
+
+
+sudo crontab -e
+
+# m h  dom mon dow   command
+* * * * * sh /home/pi/dome/sound.sh > /home/pi/dome/log_sound.out 2>&1 &
+

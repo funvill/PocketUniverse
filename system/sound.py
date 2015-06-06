@@ -6,36 +6,31 @@
 import os, random
 from time import sleep
 from time import gmtime, strftime
-from bibliopixel.led import *
-from bibliopixel.drivers.serial_driver import *
-import bibliopixel.colors as colors
 import RPi.GPIO as GPIO
+
+import socket
+import sys
+import time
+
+def get_lock(process_name):
+    global lock_socket   # Without this our lock gets garbage collected
+    lock_socket = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM)
+    try:
+        lock_socket.bind('\0' + process_name)
+        print 'I got the lock'
+    except socket.error:
+        print 'lock exists'
+        sys.exit()
+
+get_lock('sound')
 
 current_milli_time = lambda: int(round(time.time() * 1000))
 
 # Constants 
-countPixelStrip = 32*5 
-ledCount = countPixelStrip * 8
 pathSoundEffects = '/sounds/'
 
 #settings   
-setting_speed = 10
 button_bounce = 500 
-
-driverA = 0 
-driverB = 0 
-led = 0 
-
-def RestartLEDs( ):
-    # set up the LEDs 
-    print 'Restarting LEDs... ' 
-    global driverA, driverB, led 
-    driverA = DriverSerial(LEDTYPE.WS2811, 32*5*4, deviceID = 2)
-    driverB = DriverSerial(LEDTYPE.WS2811, 32*5*4, deviceID = 1)
-    led = LEDStrip([driverA, driverB])
-    led.setMasterBrightness( 255/8 ) 
-
-RestartLEDs( ); 
 
 class SoundEffect(object):
     def __init__(self, pinName=None, fileName=None) :
@@ -90,28 +85,15 @@ SoundEffectList.append(SoundEffect(12, "workit_loud.mp3" ))
 
 # main loop 
 print 'Starting...'
-count = 0 
-while True:
-    try : 
+
+#play a sound on start up. 
+PlayRandom()
     
-        for button in SoundEffectList:
-            button.Check() 
-            
-        if (GPIO.input( 5 ) == True):
-            # play something random
-            PlayRandom() 
+count = 0 
+while True:    
+    for button in SoundEffectList:
+        button.Check() 
         
-        # Update the LEDs
-        try :
-            count += setting_speed 
-            for pixel in range( ledCount ):
-                led.set(pixel , colors.hue2rgb( (pixel + count) % 256 ) )
-            led.update()
-            
-        except:
-            RestartLEDs( );
-                
-    except:
-        print 'Something really bad happened. Lets keep doing it until it fixes its self or someone tells us to stop.'
-        # sleep for three seconds and try again.  
-        sleep ( 3 )
+    if (GPIO.input( 5 ) == True):
+        # play something random
+        PlayRandom() 
