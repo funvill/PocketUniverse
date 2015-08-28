@@ -10,12 +10,14 @@
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(32*10, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(144, PIN, NEO_GRB + NEO_KHZ800);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
 // and minimize distance between Arduino and first pixel.  Avoid connecting
 // on a live circuit...if you must, connect GND first.
+
+
 
 void setup() {
   // This is for Trinket 5V 16MHz, you can remove these three lines if you are not using a Trinket
@@ -24,6 +26,10 @@ void setup() {
 #endif
   // End of trinket special code
 
+  // Because this pattern is running on 5 different arduinos. We need to synch up the random numbers. 
+  // it can occasionally be useful to use pseudo-random sequences that repeat exactly. 
+  // This can be accomplished by calling randomSeed() with a fixed number, before starting the random sequence.
+  randomSeed( 0 ); 
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -41,18 +47,44 @@ void loop() {
   theaterChase(strip.Color(127,   0,   0), 50, 100); // Red
   theaterChase(strip.Color(  0,   0, 127), 50, 100); // Blue
   */
-  /*
-  for(int cycle = 0 ; cycle < 5; cycle++ ) {
-    rainbow(20);
+
+  
+  for( int offset = 0 ; offset < 3 ; offset++ ) 
+  {
+    strip.setBrightness(255); // Set LED brightness to full 
+    
+    switch( offset ) 
+    {
+      // Rainbow    
+      case 0: {
+        strip.setBrightness(255/2); // Set LED brightness half to prevent brown outs.
+        for(int cycle = 0 ; cycle < 1; cycle++ ) {
+          // 5 cycle with delay 20 == 45 sec 
+          rainbowCycle(20);
+        }
+        break; 
+      }
+  
+      // Theader chase 
+      case 1: {
+        for(int cycle = 0 ; cycle < 1; cycle++ ) {
+          // 1 cycle with delay 20 == 25 sec         
+          // 1 cycle with delay 35 == 36 sec   
+          // 1 cycle with delay 40 == 40 sec
+          theaterChaseRainbow(40);
+        }  
+        break; 
+      }
+  
+      // Fader 
+      case 2: {
+        for(int cycle = 0 ; cycle < 5; cycle++ ) {
+          fader(5, 10, 10 ); 
+        }
+        break; 
+      }
+    }  
   }
-  
-  for(int cycle = 0 ; cycle < 5; cycle++ ) {
-    theaterChaseRainbow(50);
-  }
-  */
-  fader(10, 10, 10 ); 
-  
-  
 }
 
 void fader( int numOfSnakes, int lengthOfSnake, int wait ) {
@@ -109,7 +141,7 @@ void rainbow(uint8_t wait) {
 void rainbowCycle(uint8_t wait) {
   uint16_t i, j;
 
-  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+  for(j=0; j<5*256; j++) { // 5 cycles of all colors on wheel
     for(i=0; i< strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
     }
@@ -120,7 +152,7 @@ void rainbowCycle(uint8_t wait) {
 
 //Theatre-style crawling lights.
 void theaterChase(uint32_t c, uint8_t wait, int cycles) {
-  for (int j=0; j<cycles; j++) {  //do 10 cycles of chasing
+  for (int j=0; j<cycles; j++) {  //do cycles of chasing
     for (int q=0; q < 3; q++) {
       for (int i=0; i < strip.numPixels(); i=i+3) {
         strip.setPixelColor(i+q, c);    //turn every third pixel on
