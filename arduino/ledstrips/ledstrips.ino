@@ -10,7 +10,7 @@
 //   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(144, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(30*10, PIN, NEO_GRB + NEO_KHZ800);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -30,6 +30,8 @@ void setup() {
   // it can occasionally be useful to use pseudo-random sequences that repeat exactly. 
   // This can be accomplished by calling randomSeed() with a fixed number, before starting the random sequence.
   randomSeed( 0 ); 
+  
+  strip.setBrightness(255); // Set LED brightness to full 
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
@@ -47,17 +49,14 @@ void loop() {
   theaterChase(strip.Color(127,   0,   0), 50, 100); // Red
   theaterChase(strip.Color(  0,   0, 127), 50, 100); // Blue
   */
-
   
-  for( int offset = 0 ; offset < 3 ; offset++ ) 
-  {
-    strip.setBrightness(255); // Set LED brightness to full 
-    
+  for( int offset = 1 ; offset < 5 ; offset++ ) 
+  {    
     switch( offset ) 
     {
       // Rainbow    
       case 0: {
-        strip.setBrightness(255/2); // Set LED brightness half to prevent brown outs.
+        
         for(int cycle = 0 ; cycle < 1; cycle++ ) {
           // 5 cycle with delay 20 == 45 sec 
           rainbowCycle(20);
@@ -67,7 +66,7 @@ void loop() {
   
       // Theader chase 
       case 1: {
-        for(int cycle = 0 ; cycle < 1; cycle++ ) {
+        for(int cycle = 0 ; cycle < 10; cycle++ ) {
           // 1 cycle with delay 20 == 25 sec         
           // 1 cycle with delay 35 == 36 sec   
           // 1 cycle with delay 40 == 40 sec
@@ -78,13 +77,85 @@ void loop() {
   
       // Fader 
       case 2: {
-        for(int cycle = 0 ; cycle < 5; cycle++ ) {
+        for(int cycle = 0 ; cycle < 50; cycle++ ) {
           fader(5, 10, 10 ); 
+        }
+        break; 
+      }
+      
+      case 3: {
+        for(int cycle = 0 ; cycle < 750; cycle++ ) {
+          Sparkel(5, 5) ;
+        }
+        break; 
+      }
+      
+      case 4: {
+        for(int cycle = 0 ; cycle < 50; cycle++ ) {
+          ColorWheelFader( 10, 0);
         }
         break; 
       }
     }  
   }
+}
+
+// Pick a random location on the string. 
+// Fade colors out from this random location to either side. 
+void ColorWheelFader( int lengthOfRainbow, int wait) {
+  
+  for( int offset = 0 ; offset < strip.numPixels() ; offset++ ) {
+    // Set everything to black. 
+    for(int i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, strip.Color(0, 0, 0) );        
+    }    
+    
+    for( int offsetLengthOfRainbow = 0 ; offsetLengthOfRainbow < lengthOfRainbow ; offsetLengthOfRainbow++ ) {
+      strip.setPixelColor(offset+offsetLengthOfRainbow, Wheel( offsetLengthOfRainbow * (255/lengthOfRainbow) ));  
+    }
+    strip.show();
+    delay(wait);
+  } 
+  
+  
+  for( int offset = strip.numPixels() ; offset > 0 ; offset-- ) {
+    // Set everything to black. 
+    for(int i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, strip.Color(0, 0, 0) );        
+    }    
+    
+    for( int offsetLengthOfRainbow = 0 ; offsetLengthOfRainbow < lengthOfRainbow ; offsetLengthOfRainbow++ ) {
+      strip.setPixelColor(offset+offsetLengthOfRainbow, Wheel( offsetLengthOfRainbow * (255/lengthOfRainbow) ));  
+    }
+    strip.show();
+    delay(wait);
+  }   
+}
+
+void Sparkel( int count, int sparkelSize )
+{
+    // Set everything to black. 
+    for(int i=0; i<strip.numPixels(); i++) {
+      strip.setPixelColor(i, strip.Color(0, 0, 0) );        
+    }
+    
+
+    
+    for( int offsetCount = 0 ; offsetCount < count; offsetCount++ ) {
+      uint32_t pixelColor = Wheel( random( 100, 255 ) ) ; 
+
+      int location = random( 0, strip.numPixels() ) ; 
+    
+      // Set a few leds 
+      for( int offsetSparkelSize = 0 ; offsetSparkelSize < sparkelSize; offsetSparkelSize++ ) {
+        strip.setPixelColor(location+offsetSparkelSize, pixelColor );   
+      }
+      
+    }
+    
+    strip.show();
+    delay(50); 
+
 }
 
 void fader( int numOfSnakes, int lengthOfSnake, int wait ) {
